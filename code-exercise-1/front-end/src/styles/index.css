@@ -1,0 +1,5 @@
+@import url('text-area.css'); 
+
+*:focus {
+    outline: none;
+}

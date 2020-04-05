@@ -1,0 +1,14 @@
+.my-text-area {
+    width: 100%;
+    height: 250px;
+    border: 1px solid #000000;
+    border-radius: 5px;
+}
+
+#hidden-input {
+    display: none;
+}
+
+.margin {
+    margin: 5px 0px;
+}
