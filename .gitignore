@@ -1,3 +1,5 @@
 code-exercise-*/front-end/node_modules
+code-exercise-*/node-server/node_modules
+code-exercise-*/node-server/yarn.lock
 code-exercise-*/front-end/dist
 code-exercise-*/front-end/yarn.lock

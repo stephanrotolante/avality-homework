@@ -2,7 +2,8 @@ import React, { useState, FunctionComponent } from 'react';
 import { Container, Row, Col, Button, Alert } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileUpload } from '@fortawesome/free-solid-svg-icons';
-
+import axios from 'axios';
+const { PORT = 3333 } = process.env;
 
 
 type AppProps = any;
@@ -11,44 +12,64 @@ const App: FunctionComponent<AppProps> =() => {
 
     const [text,setText] = useState<string>('');
 
-    const [valid,setValid] = useState<null|boolean>(null);
+    const [valid,setValid] = useState<number>(-1);
 
     const [typeOfValidation,setTypeOfValidation] = useState<null|string>(null);
 
-    const [filePath,setFilePath] = useState<string| ArrayBuffer | null>('');
+    const [file,setFile] = useState<string| ArrayBuffer | null>('');
 
     const handleOnChange: any= (e: React.ChangeEvent<HTMLInputElement>) => {
         const _value = e.target.value;
-        setValid(null);
+        setValid(-1);
+        setFile('');
         setTypeOfValidation('text');
         setText(_value);
     }
 
-    const validateParanthesis:any = () => {
-        const cleanString:string = text.replace(/([a-z]|[0-9]|[!@#$%^&*_+-={[\]|\\,.'"<>/?}])/g,'');
-
-        let count:number = 0;
-
-        cleanString.split('').forEach(char => {
-            switch(char){
-                case '(':
-                    ++count;
-                    break;
-                case ')':
-                    --count;
-                    break;
-                default:
-                    break;
+    const validateFile = () => {
+        axios({
+            method:"POST",
+            url: `http://localhost:${PORT}/validate-file`,
+            data: {
+                file
+            },
+            headers: {
+                'Content-Type' : 'application/json; charset=UTF-8',
+                'Accept': 'Token'
             }
-
-            if(count < 0)  setValid(false);
-        });
-
-        if(count === 0) setValid(true);
+        }).then(res => {
+            const { valid } = res.data;
+            if(valid) {
+                setValid(0);
+            } else {
+                setValid(2);
+            }
+        }).catch(err =>  setValid(3));
+    }
+    
+    const validateText:any = () => {
+        axios({
+            method:"POST",
+            url: `http://localhost:${PORT}/validate-text`,
+            data: {
+                text
+            },
+            headers: {
+                'Content-Type' : 'application/json; charset=UTF-8',
+                'Accept': 'Token'
+            }
+        }).then(res => {
+            const { valid } = res.data;
+            if(valid) {
+                setValid(0);
+            } else {
+                setValid(2);
+            }
+        }).catch(err =>  setValid(3));
     }
 
     const clearText = () => {
-        setValid(null);
+        setValid(-1);
         setText('');
     }
 
@@ -77,11 +98,26 @@ const App: FunctionComponent<AppProps> =() => {
         reader.onload = function(e) {
             // The file's text will be printed here
             console.log(reader.result);
-            setFilePath(reader.result)
+            setFile(reader.result)
 ;
         };
 
         reader.readAsDataURL(file);
+
+        setTypeOfValidation('file');
+        setValid(1);
+    }
+
+    const validate = () => {
+        switch(typeOfValidation){
+            case 'text':
+                validateText();
+                break;
+            case 'file':
+                validateFile();
+                break;
+            default:
+        }
     }
 
     const ValidationMessage = () => {
@@ -90,9 +126,32 @@ const App: FunctionComponent<AppProps> =() => {
 
         const _invalid = "Check your syntax :(";
 
-        const message = valid?_valid:_invalid;
+        const successfulUpload = "Your file uploaded succesfully :D";
 
-        const color = valid?'success':'danger';
+        const serviceFail = "Failure with the service :/"
+
+        const success = 'success';
+        const danger = 'danger';
+        let message;
+        let color;
+
+        switch(valid){
+            case 0:
+                message = _valid;
+                color = success;
+                break;
+            case 1:
+                message = successfulUpload;
+                color = success;
+                break;
+            case 2:
+                message = _invalid;
+                color = danger;
+            case 3:
+                message = serviceFail;
+                color = danger;
+            default:
+        }
 
         return (
             <div>
@@ -100,8 +159,8 @@ const App: FunctionComponent<AppProps> =() => {
             </div>
         );
     }
-
-    const displayAlert = valid !== null;
+    
+    const displayAlert = valid !== -1;
    
     return (
         <Container>
@@ -118,7 +177,7 @@ const App: FunctionComponent<AppProps> =() => {
                     <Row>
                         <Col>
                             <div className="margin">
-                            <Button block onClick={uploadFile}> <FontAwesomeIcon icon={faFileUpload}/> &nbsp; Upload .lsp</Button>
+                            <Button block disabled={Boolean(text)} onClick={uploadFile}> <FontAwesomeIcon icon={faFileUpload}/> &nbsp; Upload .lsp</Button>
                             </div>
                         </Col>
                     </Row>
@@ -132,7 +191,7 @@ const App: FunctionComponent<AppProps> =() => {
                     <Row>
                         <Col>
                             <div className="margin">
-                            <Button  block color="success" onClick={validateParanthesis} >Validate</Button>
+                            <Button  block color="success" disabled={!!!text && !!!file} onClick={validate} >Validate</Button>
                             </div>
                         </Col>
                     </Row> 
