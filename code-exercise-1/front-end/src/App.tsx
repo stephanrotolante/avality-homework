@@ -25,7 +25,7 @@ const App: FunctionComponent<AppProps> =() => {
         setTypeOfValidation('text');
         setText(_value);
     }
-
+   
     const validateFile = () => {
         axios({
             method:"POST",
