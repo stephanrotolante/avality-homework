@@ -1,0 +1,127 @@
+export const states = ['','AK',
+'AL',
+'AR',
+'AZ',
+'CA',
+'CO',
+'CT',
+'DE',
+'FL',
+'GA',
+'HI',
+'IA',
+'ID',
+'IL',
+'IN',
+'KS',
+'KY',
+'LA',
+'MA',
+'MD',
+'ME',
+'MI',
+'MN',
+'MO',
+'MS',
+'MT',
+'NC',
+'ND',
+'NE',
+'NH',
+'NJ',
+'NM',
+'NV',
+'NY',
+'OH',
+'OK',
+'OR',
+'PA',
+'RI',
+'SC',
+'SD',
+'TN',
+'TX',
+'UT',
+'VA',
+'VT',
+'WA',
+'WI',
+'WV',
+'WY']
+
+
+export const formInfo = {
+    firstname:{
+        value:'',
+        restictions:{
+            restrict:['numbers','specialcharacters'],
+            maxSize:-1,
+            minSize:1
+        }
+    },
+    lastname:{
+        value:'',
+        restictions:{
+            restrict:['numbers','specialcharacters'],
+            maxSize:-1,
+            minSize:1
+        }
+    },
+    email:{
+        value:'',
+        restictions:{
+            restrict:[],
+            maxSize:-1,
+            minSize:1
+        }
+    },
+    npi:{
+        value:'',
+        restictions:{
+            restrict:['specialcharacters','letters'],
+            minSize:6,
+            maxSize:6
+        }
+    },
+    number:{
+        value:'',
+        restictions:{
+            restrict:['specialcharacters','letters'],
+            minSize:10,
+            maxSize:10
+        }
+    },
+    address:{
+        value:'',
+        restictions:{
+            restrict:['address'],
+            strucutre:'address',
+            minSize:10,
+            maxSize:-1
+        }
+    },
+    city:{
+        value:'',
+        restictions:{
+            restrict:['address'],
+            maxSize:-1,
+            minSize:1
+        }
+    },
+    zip:{
+        value:'',
+        restictions:{
+            restrict:['letters','specialcharacters'],
+            maxSize:5,
+            minSize:5
+        }
+    },
+    state:{
+        value:'',
+        restictions:{
+            restrict:[],
+            maxSize:2,
+            minSize:2
+        }
+    }
+}

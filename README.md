@@ -15,14 +15,20 @@ if have docker installed on your machine
     docker-compose up --build
 ```
 
-To get front-end up
+The app will be on localhost:3050
+
+
+## Code Exercise 2
+
+First
 ```bash
-    cd front-end
-    yarn install &&  yarn start
+    cd code-exercise-1
+```
+if have docker installed on your machine
+
+```bash
+    docker-compose up --build
 ```
 
-To get the services up
-```bash
-    cd node-serve
-    yarn install && yarn build && yarn start
-```
+The app will be on localhost:3050
+

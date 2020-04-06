@@ -32,7 +32,7 @@ const validateString = (text:string): boolean => {
 
     if(count === 0)  return true;
     
-    return true;
+    return false;
 }
 
 app.get('/',(req,res) => {
@@ -58,7 +58,7 @@ app.post('/validate-text',(req,res) => {
     const { text } = req.body;
 
     const valid = validateString(text);
-
+    
     res.send({valid});
 
 })

@@ -1,0 +1,31 @@
+version: '3'
+services: 
+    mongo:
+        image: mongo
+        restart: always
+        environment: 
+            MONGO_INITDB_ROOT_USERNAME: root
+            MONGO_INITDB_ROOT_PASSWORD: example
+        ports:
+            - "27017:27017"
+    nginx:
+        restart: always
+        build:
+            context: ./nginx
+            dockerfile: dockerfile
+        ports:
+            - '3050:80'
+    front-end:
+        build: 
+            context: ./front-end
+            dockerfile: dockerfile
+        ports:
+            - '3000:3000'
+    node-server:
+        build: 
+            context: ./node-server
+            dockerfile: dockerfile
+        environment: 
+            PORT : 3333
+        ports: 
+            - '3333:3333'

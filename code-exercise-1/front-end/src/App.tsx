@@ -3,8 +3,6 @@ import { Container, Row, Col, Button, Alert } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileUpload } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
-const { PORT = 3333 } = process.env;
-
 
 type AppProps = any;
 
@@ -29,7 +27,7 @@ const App: FunctionComponent<AppProps> =() => {
     const validateFile = () => {
         axios({
             method:"POST",
-            url: `http://localhost:${PORT}/validate-file`,
+            url: `node-server/validate-file`,
             data: {
                 file
             },
@@ -50,7 +48,7 @@ const App: FunctionComponent<AppProps> =() => {
     const validateText:any = () => {
         axios({
             method:"POST",
-            url: `http://localhost:${PORT}/validate-text`,
+            url: `node-server/validate-text`,
             data: {
                 text
             },
@@ -89,15 +87,12 @@ const App: FunctionComponent<AppProps> =() => {
 
         const { files = [] } = e.target;
 
-        console.log(e.target.files[0]);
-
         const file:File = files[0];
         const reader = new FileReader();
     
         
         reader.onload = function(e) {
             // The file's text will be printed here
-            console.log(reader.result);
             setFile(reader.result)
 ;
         };
@@ -147,6 +142,7 @@ const App: FunctionComponent<AppProps> =() => {
             case 2:
                 message = _invalid;
                 color = danger;
+                break;
             case 3:
                 message = serviceFail;
                 color = danger;
