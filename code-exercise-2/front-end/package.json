@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --open",
-    "build":"webpack --env.prod",
+    "build": "webpack --env.prod",
     "watch": "tsc -w"
   },
   "keywords": [],
@@ -20,7 +20,8 @@
     "font-awesome": "^4.7.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "reactstrap": "^8.4.1"
+    "reactstrap": "^8.4.1",
+    "yup": "^0.28.3"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",

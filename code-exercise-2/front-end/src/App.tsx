@@ -14,7 +14,8 @@ type AppProps = any;
 
 const App: FunctionComponent<AppProps> =() => {
 
-    const [values,handleChange,handleBlur,getValidation] = useForm(formInfo);
+    const [values,handleChange,handleBlur,getValidation,resetItems] = useForm(formInfo);
+    const [showSuccess,setShowSuccess] = useState<null|number>(null);
  
     const {
         firstname,
@@ -47,16 +48,40 @@ const App: FunctionComponent<AppProps> =() => {
             npi:npi.value
         })
         .then(res => {
-            axios.post('node-server/send-info',res);
+            axios.post('http://localhost:3333/send-info',res).then(response => {
+                setShowSuccess(1);
+                setTimeout(()=> {
+                    setShowSuccess(null);
+                },3000)
+            });
         })
-        .catch(err=> console.log(err))
+        .catch(err=>{
+            setShowSuccess(0);
+            setTimeout(()=> {
+                setShowSuccess(null);
+            },3000)
+        })
+        
     }
 
+    const validInputs =getValidation();
+    const _showSuccess = showSuccess === 1 && !validInputs
+    const _showFail = showSuccess === 0 && !validInputs
     return (
         <Container>
-            { getValidation() && <div>
+            { validInputs && <div>
                 <Alert color="danger">
                     Your missing some info :(
+                </Alert> 
+            </div>}
+            { _showSuccess && <div>
+                <Alert color="success">
+                   Data sent successfully :D
+                </Alert> 
+            </div>}
+            { _showFail && <div>
+                <Alert color="danger">
+                   Something went wrong sending :(
                 </Alert> 
             </div>}
             <Form onSubmit={submit}>
@@ -89,6 +114,7 @@ const App: FunctionComponent<AppProps> =() => {
                                 placeholder="Sanchez" 
                                 value={lastname.value} 
                                 onChange={handleChange} 
+                                onBlur={handleBlur}
                             />
                             <FormFeedback >Invalid input</FormFeedback>
                         </FormGroup>
@@ -106,6 +132,7 @@ const App: FunctionComponent<AppProps> =() => {
                                 placeholder="RickSanchez@gmail.com"
                                 value={email.value}
                                 onChange={handleChange}
+                                onBlur={handleBlur}
 
                             />
                             <FormFeedback >Invalid input</FormFeedback>
@@ -215,7 +242,7 @@ const App: FunctionComponent<AppProps> =() => {
                     </Col>
                 </Row>
                 <Row>
-                    <Col><Button block type='reset' color='danger'>Reset</Button></Col>
+                    <Col><Button block type='reset' color='danger' onClick={resetItems}>Reset</Button></Col>
                     <Col><Button block type='submit' color='success'>Submit</Button></Col>
                 </Row>
             </Form>

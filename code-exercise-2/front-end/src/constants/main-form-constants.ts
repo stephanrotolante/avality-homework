@@ -71,6 +71,7 @@ export const formInfo = {
         value:'',
         restictions:{
             restrict:[],
+            structure:'email',
             maxSize:-1,
             minSize:1
         }
@@ -95,7 +96,7 @@ export const formInfo = {
         value:'',
         restictions:{
             restrict:['address'],
-            strucutre:'address',
+            structure:'address',
             minSize:10,
             maxSize:-1
         }

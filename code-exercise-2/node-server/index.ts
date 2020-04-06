@@ -19,7 +19,9 @@ app.post('/send-info', async (req,res) => {
 
     const user = new UserModel({...req.body});
 
-    await user.save();
+    const result = await user.save();
+
+    res.send(!!result)
 
 })
 

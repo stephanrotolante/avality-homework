@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 
 const restrictionMap ={
@@ -9,7 +9,8 @@ const restrictionMap ={
 }
 
 const structureMap = {
-    address:/^\d+\s[A-z]+\s[A-z]+/g
+    address:/^\d+\s[A-z]+\s[A-z]+/,
+    email:/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
 }
 
 
@@ -42,7 +43,6 @@ export const useForm = initialValues => {
               value,
               invalid:false
           }
-
       });
   };
 
@@ -54,9 +54,8 @@ export const useForm = initialValues => {
     const { restictions:{minSize, structure  }} = currentFormItem;
 
     const matchesStructure = structure? structureMap[structure].test(value): true;
-
+    
     if(value === '' || value.length < minSize || !matchesStructure){
-        console.log('in here');
         setFormItems({
             ...formItems,
             [name]:{
@@ -75,6 +74,20 @@ export const useForm = initialValues => {
         });
     }
   }
+  const resetItems = () => {
+
+    let temp = JSON.parse(JSON.stringify(formItems));
+
+    Object.keys(formItems).forEach(key => {
+            temp[key] = {
+                ...temp[key],
+                value:'',
+                invalid:false
+            }
+    });
+
+    setFormItems(temp);
+  }
 
   const getValidation = ()=>{
       return Object.keys(formItems).find(key => formItems[key].invalid === true);
@@ -84,6 +97,7 @@ export const useForm = initialValues => {
     formItems,
     handleChange,
     handleBlur,
-    getValidation
+    getValidation,
+    resetItems
   ];
 };
