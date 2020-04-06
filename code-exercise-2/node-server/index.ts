@@ -28,7 +28,7 @@ app.post('/send-info', async (req,res) => {
 const startServer = async () => {
     
         
-    await mongoose.connect('mongodb://localhost:27017', { useNewUrlParser: true, useUnifiedTopology: true });
+    await mongoose.connect('mongodb://root:example@mongo:27017', { useNewUrlParser: true, useUnifiedTopology: true });
       
     app.listen(PORT, () => console.log(`Server up at ${PORT}`))
 }

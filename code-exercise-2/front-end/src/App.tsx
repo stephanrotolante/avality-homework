@@ -48,19 +48,19 @@ const App: FunctionComponent<AppProps> =() => {
             npi:npi.value
         })
         .then(res => {
-            axios.post('http://localhost:3333/send-info',res).then(response => {
+            axios.post('node-server/send-info',res).then(response => {
                 setShowSuccess(1);
                 setTimeout(()=> {
                     setShowSuccess(null);
                 },3000)
-            });
+            }).catch(err=>{
+                setShowSuccess(0);
+                setTimeout(()=> {
+                    setShowSuccess(null);
+                },3000)
+            })
         })
-        .catch(err=>{
-            setShowSuccess(0);
-            setTimeout(()=> {
-                setShowSuccess(null);
-            },3000)
-        })
+        
         
     }
 
