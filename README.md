@@ -9,8 +9,7 @@ First
 ```bash
     cd code-exercise-1
 ```
-if have docker installed on your machine
-
+Second
 ```bash
     docker-compose up --build
 ```
@@ -22,10 +21,9 @@ The app will be on localhost:3050
 
 First
 ```bash
-    cd code-exercise-1
+    cd code-exercise-2
 ```
-if have docker installed on your machine
-
+Second
 ```bash
     docker-compose up --build
 ```
