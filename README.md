@@ -17,6 +17,12 @@ Second
 The app will be on localhost:3050
 
 
+To Kill
+```bash
+    docker system prune -f
+```
+
+
 ## Code Exercise 2
 
 First
@@ -29,4 +35,10 @@ Second
 ```
 
 The app will be on localhost:3050
+
+
+To Kill
+```bash
+    docker system prune -f
+```
 
